@@ -225,8 +225,13 @@ public class Repository implements Serializable {
 		return new PaginatedMetaList<T>(query.getResultList(), meta);
 	}
 
-	public <T extends Number> T sum(@NotNull final Attribute<?, ?> attribute) {
-		final Expression<T> expression = joinner.get(from, attribute);
+	public <T extends Number> T sum(@Size(min = 1) @NotNull final Attribute<?, ?>... attributes) {
+		Expression<T> expression = joinner.get(from, attributes[0]);
+		for (int i = 1, j = attributes.length; i < j; i++) {
+			final Attribute<?, ?> attribute = attributes[i];
+			final Expression<T> e = joinner.get(from, attribute);
+			expression = builder.sum(expression, e);
+		}
 		final Selection<T> s = builder.sum(expression);
 		
 		final TypedQuery<Long> query = query(s, criteriaQuery, predicates);
