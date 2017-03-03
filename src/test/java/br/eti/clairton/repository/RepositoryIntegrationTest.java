@@ -154,6 +154,15 @@ public class RepositoryIntegrationTest {
 		final Aplicacao aplicacao = repository.from(Aplicacao.class).single();
 		assertNotNull(aplicacao);
 	}
+	
+	@Test
+	public void testSum() {
+		long sum = repository
+							.from(Aplicacao.class)
+							.where(1, Comparators.GREATER_THAN_OR_EQUAL, Aplicacao_.id)
+							.sum(Aplicacao_.id);
+		assertTrue(sum > 0l);
+	}
 
 	@Test
 	public void testCollection() {
