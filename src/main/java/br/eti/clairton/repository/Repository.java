@@ -240,7 +240,8 @@ public class Repository implements Serializable {
 		} else if(selections.size() ==  1) {			
 			from = (Expression<?>) selections.get(0);
 		} else {
-			throw new SelectionHasManyButMustOneException();
+			from = (Expression<?>) selections.get(0);
+//			throw new SelectionHasManyButMustOneException();
 		}
 		@SuppressWarnings("unchecked")
 		final Set<Fetch<?, ?>> fetches = (Set<Fetch<?, ?>>)((Set<?>) this.from.getFetches()); 
